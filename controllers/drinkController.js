@@ -2,7 +2,13 @@ const expressAsyncHandler = require('express-async-handler')
 const drinkModel = require('../models/drinkModel')
 
 const allDrinks = expressAsyncHandler(async (req, res) => {
-
+    try {
+        const drinkList = await drinkModel.find();
+        res.json(drinkList)
+    } catch (error) {
+        res.sendStatus(400)
+        throw new Error(error.message)
+    }
 })
 
 const newDrink = expressAsyncHandler(async (req, res) => {
@@ -23,6 +29,7 @@ const newDrink = expressAsyncHandler(async (req, res) => {
     const drink = await drinkModel.create({name, price, cuantity});
 
     if (drink) {
+        console.log('created:',drink)
         res.json({
             _id: drink._id,
             name: drink.name,
