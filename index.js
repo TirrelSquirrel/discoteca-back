@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors');
 const mongoose = require('mongoose')
 const drinkRoute = require('./routes/drinkRoute')
+const faqRoute = require('./routes/faqRoute')
 
 const app = express()
 app.use(cors())
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/drink', drinkRoute)
+app.use('/faq', faqRoute)
 
 app.listen(5000, () => console.log('Server is running'))
