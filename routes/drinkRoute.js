@@ -1,4 +1,5 @@
 const express = require('express')
+const {allDrinks, newDrink} = require('../controllers/drinkController')
 
 const router = express.Router()
 
