@@ -19,8 +19,8 @@ const newEvent = expressAsyncHandler(async (req, res) => {
         throw new Error('No se han rellenado todos los datos')
     }
 
-    const eventTitleExists = await eventModel.finOne({title})
-    const eventDateExists = await eventModel.finOne({date})
+    const eventTitleExists = await eventModel.findOne({title})
+    const eventDateExists = await eventModel.findOne({date})
 
     if(eventTitleExists && eventDateExists) {
         res.sendStatus(405)
