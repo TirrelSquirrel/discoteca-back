@@ -11,8 +11,18 @@ const allEvents = expressAsyncHandler(async (req, res) => {
     }
 })
 
+  const formatDate = (date) => {
+    let dateArray = date.split("-");
+    dateArray[2] = dateArray[2].split("T");
+    dateArray[2] = dateArray[2][0];
+    dateArray.reverse();
+    let dateString = dateArray.join("-");
+    return dateString;
+  };
+
 const newEvent = expressAsyncHandler(async (req, res) => {
-    const {title, description, date} = req.body
+    const {title, description} = req.body
+    const date = formatDate(req.body.date)
 
     if (!title || !description || !date) {
         res.sendStatus(400)
@@ -43,4 +53,21 @@ const newEvent = expressAsyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {allEvents, newEvent}
+const editEvent = expressAsyncHandler(async (req, res) => {
+    const {_id, title, description, date} = req.body
+
+    try {
+        const event = await eventModel.updateOne(
+          { _id },
+          { $set: { title, description, date } }
+        );
+
+        res.json(event);
+    } catch (error) {
+        res.sendStatus(400)
+        throw new Error('Error actualizando:', error.message)
+    }
+
+})
+
+module.exports = {allEvents, newEvent, editEvent}
