@@ -20,6 +20,16 @@ const formatDate = (date) => {
   return dateString;
 };
 
+const getEvent = expressAsyncHandler (async (req, res) => {
+  try {
+    const event = await eventModel.findOne({_id: req.params.eventid})
+    res.json(event)
+  } catch (error) {
+    res.sendStatus(404)
+    throw new Error('Evento no encontrado')
+  }
+})
+
 const newEvent = expressAsyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const date = formatDate(req.body.date);
@@ -75,4 +85,4 @@ const editEvent = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allEvents, newEvent, editEvent };
+module.exports = { allEvents, newEvent, editEvent, getEvent };
