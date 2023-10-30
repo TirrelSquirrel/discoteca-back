@@ -11,6 +11,17 @@ const allDrinks = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const getDrink = expressAsyncHandler(async (req, res) => {
+  try{
+    const drink = await drinkModel.findOne({_id:req.params.drinkid})
+
+    res.json(drink)
+  } catch (error) {
+    res.sendStatus(404)
+    throw new Error('Botella no encontrada')
+  }
+})
+
 const newDrink = expressAsyncHandler(async (req, res) => {
   const { name, price, cuantity } = req.body;
 
@@ -62,4 +73,4 @@ const editDrink = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allDrinks, newDrink, editDrink };
+module.exports = { allDrinks, newDrink, editDrink, getDrink };
