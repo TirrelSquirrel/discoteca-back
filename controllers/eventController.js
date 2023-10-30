@@ -85,4 +85,17 @@ const editEvent = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allEvents, newEvent, editEvent, getEvent };
+const deleteEvent = expressAsyncHandler(async (req, res) => {
+  const _id = req.body
+
+  try {
+    const event = await eventModel.deleteOne({_id})
+
+    res.sendStatus(200)
+  } catch (error) {
+    res.sendStatus(404)
+    throw new Error('Error eliminando', error.message)
+  }
+})
+
+module.exports = { allEvents, newEvent, editEvent, getEvent, deleteEvent };
