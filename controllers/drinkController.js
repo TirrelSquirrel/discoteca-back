@@ -73,4 +73,17 @@ const editDrink = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allDrinks, newDrink, editDrink, getDrink };
+const deleteDrink = expressAsyncHandler(async (req, res) => {
+  const _id = req.body
+
+  try {
+    const drink = await drinkModel.deleteOne({_id})
+
+    res.sendStatus(200)
+  } catch (error) {
+    res.sendStatus(404)
+    throw new Error('Error eliminando', error.message)
+  }
+})
+
+module.exports = { allDrinks, newDrink, editDrink, getDrink, deleteDrink };
