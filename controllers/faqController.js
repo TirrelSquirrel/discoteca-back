@@ -11,6 +11,16 @@ const allFaqs = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const getFaq = expressAsyncHandler(async (req, res) => {
+  try {
+    const faq = await faqModel.findOne({_id:req.params.faqid})
+    res.json(faq)
+  } catch (error) {
+    res.sendStatus(4040)
+    throw new Error('FAQ no encontrado')
+  }
+})
+
 const newFaq = expressAsyncHandler(async (req, res) => {
   const { question, answer } = req.body;
 
@@ -61,4 +71,4 @@ const editFaq = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allFaqs, newFaq, editFaq };
+module.exports = { allFaqs, newFaq, editFaq, getFaq };
