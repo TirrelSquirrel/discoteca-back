@@ -71,4 +71,17 @@ const editFaq = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { allFaqs, newFaq, editFaq, getFaq };
+const deleteFaq = expressAsyncHandler(async (req, res) => {
+  const _id = req.body;
+
+  try {
+    const faq = await faqModel.deleteOne({ _id });
+
+    res.sendStatus(200);
+  } catch (error) {
+    res.sendStatus(404);
+    throw new Error("Error eliminando", error.message);
+  }
+});
+
+module.exports = { allFaqs, newFaq, editFaq, getFaq, deleteFaq };
