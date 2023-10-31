@@ -20,15 +20,15 @@ const formatDate = (date) => {
   return dateString;
 };
 
-const getEvent = expressAsyncHandler (async (req, res) => {
+const getEvent = expressAsyncHandler(async (req, res) => {
   try {
-    const event = await eventModel.findOne({_id: req.params.eventid})
-    res.json(event)
+    const event = await eventModel.findOne({ _id: req.params.eventid });
+    res.json(event);
   } catch (error) {
-    res.sendStatus(404)
-    throw new Error('Evento no encontrado')
+    res.sendStatus(404);
+    throw new Error("Evento no encontrado");
   }
-})
+});
 
 const newEvent = expressAsyncHandler(async (req, res) => {
   const { title, description } = req.body;
@@ -63,13 +63,21 @@ const newEvent = expressAsyncHandler(async (req, res) => {
 });
 
 const editEvent = expressAsyncHandler(async (req, res) => {
-  const { _id, title, description, date } = req.body;
+  console.log("Hola");
+  const { _id, title, description } = req.body;
+  const date = formatDate(req.body.date);
 
-  const eventExists = await eventModel.findOne({ title, date });
+  console.log("Hola hola");
 
-  if (eventTitleExists) {
-    res.sendStatus(405);
-    throw new Error("El evento ya existe");
+  try {
+    const eventExists = await eventModel.findOne({ title, date });
+
+    if (eventTitleExists) {
+      res.sendStatus(405);
+      throw new Error("El evento ya existe");
+    }
+  } catch (error) {
+    console.log(error);
   }
 
   try {
@@ -86,16 +94,16 @@ const editEvent = expressAsyncHandler(async (req, res) => {
 });
 
 const deleteEvent = expressAsyncHandler(async (req, res) => {
-  const _id = req.body
+  const _id = req.body;
 
   try {
-    const event = await eventModel.deleteOne({_id})
+    const event = await eventModel.deleteOne({ _id });
 
-    res.sendStatus(200)
+    res.sendStatus(200);
   } catch (error) {
-    res.sendStatus(404)
-    throw new Error('Error eliminando', error.message)
+    res.sendStatus(404);
+    throw new Error("Error eliminando", error.message);
   }
-})
+});
 
 module.exports = { allEvents, newEvent, editEvent, getEvent, deleteEvent };
