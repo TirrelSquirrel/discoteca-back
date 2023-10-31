@@ -41,7 +41,7 @@ const newEvent = expressAsyncHandler(async (req, res) => {
 
   const eventExists = await eventModel.findOne({ title, date });
 
-  if (eventTitleExists) {
+  if (eventExists) {
     res.sendStatus(405);
     throw new Error("El evento ya existe");
   }
