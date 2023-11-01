@@ -55,7 +55,7 @@ const newDrink = expressAsyncHandler(async (req, res) => {
 const editDrink = expressAsyncHandler(async (req, res) => {
   const { _id, name, price, cuantity } = req.body;
 
-  const drinkExists = await drinkModel.findOne({ name, cuantity });
+  const drinkExists = await drinkModel.findOne({ name, cuantity, price });
   if (drinkExists) {
     res.sendStatus(405);
     throw new Error("La bebida ya existe");
